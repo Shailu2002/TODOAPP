@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO APP</title>
+    <style>
+     main{
+      background-color: black;
+      width:fit-content;
+      border-radius: 20px;
+     }
+      h1 {
+        text-align: center;
+        color: brown;
+      }
+      .todo-container {
+        margin-top: 20px;
+        display:grid;
+        grid-template-columns:auto auto auto ;
+        column-gap: 10px;
+        row-gap: 10px;
+        margin-left:50px ;
+        margin-right:50px ;
+        border-radius: 20px;
+        align-items: center;
+      }
+       .grid-container {
+        margin-top: 10px;
+        display:grid;
+        grid-template-columns:200px 150px 120px ;
+        border-radius: 20px;
+        column-gap: 10px;
+        row-gap: 10px;
+        margin-left:50px ;
+        margin-right:50px ;
+        align-items: center;
+      }
+      
+
+      #todo-input
+      {
+            
+            border-radius: 20px;
+            height: 40px;
+      }
+       #todo-date
+      {
+            height:40px;
+            border-radius: 20px;
+      }
+      .btn{
+        background-color:rgb(122, 216, 122);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border: none;
+        height:40px;
+        border-radius: 20px;
+        margin-bottom: 5px;
+        color: white;
+      }
+      .item
+      {
+        margin: 3vw;
+        text-transform: capitalize;
+        color: rgb(33, 32, 32);
+         color: white;
+      }
+
+      .delete-btn
+      {
+        background-color: rgb(183, 51, 51);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border: none;
+        border-radius: 20px;
+        margin-bottom: 5px;
+        color: white;
+         height:40px;
+        
+      }
+      .delete-btn:hover{
+        border:2px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="bahar">
+        <h1>Todo App</h1>
+        <div class="grid-container">
+          <input id="todo-input" type="text" placeholder="enter TODO here" />
+          <input id="todo-date" type="date" />
+          <button onclick="addTodo()" class="btn">Add</button>
+        </div>
+        <div class="todo-container"></div>
+      </div>
+    </main>
+    <script>
+      let todo_list = JSON.parse(localStorage.getItem('todo')) || [];
+      show();
+      function addTodo() {
+        let inputElement = document.querySelector("#todo-input");
+        let dateElement = document.querySelector("#todo-date");
+        let todoItem = inputElement.value.trim();
+        let dateItem = dateElement.value.trim();
+        console.log(todoItem);
+        if(todoItem ===''||dateItem ==='')
+       {
+         alert("enter both item and date");
+       }
+       else
+       {
+        todo_list.push({ item: todoItem, dueDate: dateItem,completed:false});
+        localStorage.setItem("todo",JSON.stringify(todo_list));
+        inputElement.value = "";
+        dateElement.value = "";
+        show();
+       }
+      }
+
+      function delete_btnn(index)
+      {
+          todo_list.splice(index,1);
+         localStorage.setItem("todo",JSON.stringify(todo_list));
+          show();
+      }
+      function show() {
+        let todoshow = document.querySelector(".todo-container");
+        let newHTML = "";
+        for (let i = 0; i < todo_list.length; i++) {
+          newHTML += `<span class="item">${todo_list[i].item}</span>
+          <span class="item"> ${todo_list[i].dueDate}</span>
+          <button class="delete-btn" onclick="delete_btnn(${i})" >Delete</button>`;
+        }
+        todoshow.innerHTML = `${newHTML}`;
+      }
+
+    </script>
+  </body>
+</html>
